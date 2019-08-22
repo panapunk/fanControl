@@ -1,11 +1,7 @@
 # fanControl
 Control de temperatura para Raspberry pi con script Bin/Bash de Linux y el control de los GPIO de la Raspberry Pi para accionar dos ventiladores según las temperatura de la Raspberry pi en cada momento.
 
-
-
-
-
-HARDWARE
+# HARDWARE
 
 Para este proyecto, se ha montado una Raspberry pi 3 Model B conectada a un Disco Duro HDD de 2Teras con alimentación propia. 
 En la Raspberry pi se ha instaldo el sistema operativo OSMC cargado en un USB.
@@ -18,12 +14,7 @@ Para reducir el nivel de ruido, este ventilador se alimenta con 3.3V DC. (este m
 
 El segundo ventilador llamado FAN_BOX, de dimensiones 40mm x 10mm, se ha instalado en la caja de maera que cuando se accione se expulse el aire caliente de la caja.
 
-
-
-
-
-
-SOFTWARE
+# SOFTWARE
 
 Debido a los problemas encontrados para instalar y habilitar las librerías GPIO de python3, se ha desarrollado el script para Bin/Bash de linux.
 
@@ -44,8 +35,7 @@ En primer lugar se definen las funciones necesarias para preparar los pines GPIO
 
 Después definimos los GPIO que usaremos para cada ventilador:
 
-# Definimos variables a los GPIO que usaremos
-# GPIO de salida
+-- GPIO de salida
 FAN_RPI=18
 FAN_RPI_NOMBRE="Ventilador RPI"
 FAN_RPI_TIMES=0
@@ -56,7 +46,7 @@ FAN_BOX_NOMBRE="Ventilador BOX"
 FAN_BOX_TIMES=0
 FAN_BOX_LAST_TEMP=0
 FAN_BOX_LAST_DATE=0
-# GPIO de entrada
+GPIO de entrada
 TEST_GPIO=17
 
 Se utilizarán los pines 18 para el ventilador de refrigeración de la Raspberry pi y el 13 para el ventilador de extracción de aire caliente de la caja.
@@ -71,11 +61,7 @@ Si el valor del archivo ESTADO es 1, se ejecutará un blucle while que se encarg
 
 Tras cada comprobación, se obtiene el tiempo de pausa definido para cada caso y se espera dicho tiempo, pintando valores en pantalla.
 
-
-
-
-
-DEMONIO:
+# DEMONIO
 
 Para que toda la funcionalidad se ejecute de manera automática, se ha desarrollado y configurado un demonio que se encarga de inicializar el script con cada reinicio del sistema, permitiendo para y volver a iniciar el script en cualquier momento.
 
@@ -93,13 +79,13 @@ Visualizando el estodo de la ejecución:
 ejemplo:
 <code>
 Ejecuciones: 1415
-Temperatura: 66 ºC (66604) - Min: 68 - Max: 70
-Ventilador/es activado/s: NINGUNO
-Fan RPI Times: 195 - Last Temp: 70 - Thu Aug 22 11:55:00 CEST 2019
-Fan BOX Times: 13 - Last Temp: 71 - Thu Aug 22 10:02:19 CEST 2019
-Fecha Now: Thu Aug 22 12:05:31 CEST 2019
-Segundos desde inicio: 129317
-Esperamos: 44 - Total(60)
+  Temperatura: 66 ºC (66604) - Min: 68 - Max: 70
+  Ventilador/es activado/s: NINGUNO
+  Fan RPI Times: 195 - Last Temp: 70 - Thu Aug 22 11:55:00 CEST 2019
+  Fan BOX Times: 13 - Last Temp: 71 - Thu Aug 22 10:02:19 CEST 2019
+  Fecha Now: Thu Aug 22 12:05:31 CEST 2019
+  Segundos desde inicio: 129317
+  Esperamos: 44 - Total(60)
 </code>
 
 
