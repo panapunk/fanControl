@@ -87,5 +87,17 @@ ejemplo:
 <br><code>Esperamos: 44 - Total(60)</code><br>
 
 
+# Instalación
+
+Para poder instalar de manera automática y funcional este script y demonio, deberemos tener instaladas las herramientas git y screen.
+
+<br><code>sudo apt update && sudo apt install git screen</code><br>
+
+Descargamos el repositorio:
+<br><code>git clone https://github.com/panapunk/fanControl.git</code><br>
+<br><code>cd fanControl</code><br>
+<br><code>sh setup.sh 0</code><br>
+
+
 
 
