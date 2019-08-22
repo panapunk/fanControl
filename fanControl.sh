@@ -236,7 +236,7 @@ inicializarApp() {
   setValorPin $FAN_RPI $ON "1"
   setValorPin $FAN_BOX $ON "1"
   #Pause
-  PAUSE=$(cat $RUTA_CONFIG/PAUSE_SORT)
+  PAUSE=$(cat $RUTA_CONFIG/PAUSE_SHORT)
   while [ $PAUSE -gt 1 ]; do
     clear
     printf "Inicializamos el programa \n"

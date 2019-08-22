@@ -51,7 +51,7 @@ printf "Creamos archivo: $RUTA_CONFIG/PAUSE \n"
 echo 60 > $RUTA_CONFIG/PAUSE
 printf "Creamos archivo: $RUTA_CONFIG/PAUSE_LONG \n"
 echo 300 > $RUTA_CONFIG/PAUSE_LONG
-printf "Creamos archivo: $RUTA_CONFIG/PAUSE_SORT \n"
+printf "Creamos archivo: $RUTA_CONFIG/PAUSE_SHORT \n"
 echo $SLEEP_DEFAULT > $RUTA_CONFIG/PAUSE_SORT
 printf "Creamos archivo: $RUTA_CONFIG/TEMPERATURA_MIN \n"
 echo 68 > $RUTA_CONFIG/TEMPERATURA_MIN
