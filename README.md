@@ -68,25 +68,24 @@ Para que toda la funcionalidad se ejecute de manera automática, se ha desarroll
 Además, nos permitirá ver el estado de la ejecución del script mediante el acceso a la scrren creada.
 
 Parando demonio:
-<br><code>sudo /etc/init.d/fanControl stop</code>
+<br><code>sudo /etc/init.d/fanControl stop</code><br>
 Iniciando demonio:
-<br><code>sudo /etc/init.d/fanControl start</code>
+<br><code>sudo /etc/init.d/fanControl start</code><br>
 
 
 Visualizando el estodo de la ejecución:
-<br><code>sudo screen -r fanControl</code>
+<br><code>sudo screen -r fanControl</code><br>
 
 ejemplo:
-<code>
-<br>  Ejecuciones: 1415
-<br>  Temperatura: 66 ºC (66604) - Min: 68 - Max: 70
-<br>  Ventilador/es activado/s: NINGUNO
-<br>  Fan RPI Times: 195 - Last Temp: 70 - Thu Aug 22 11:55:00 CEST 2019
-<br>  Fan BOX Times: 13 - Last Temp: 71 - Thu Aug 22 10:02:19 CEST 2019
-<br>  Fecha Now: Thu Aug 22 12:05:31 CEST 2019
-<br> Segundos desde inicio: 129317
-<br> Esperamos: 44 - Total(60)
-</code>
+<br><code>Ejecuciones: 1415</code><br>
+<br><code>Temperatura: 66 ºC (66604) - Min: 68 - Max: 70</code><br>
+<br><code>Ventilador/es activado/s: NINGUNO</code><br>
+<br><code>Fan RPI Times: 195 - Last Temp: 70 - Thu Aug 22 11:55:00 CEST 2019</code><br>
+<br><code>Fan BOX Times: 13 - Last Temp: 71 - Thu Aug 22 10:02:19 CEST 2019</code><br>
+<br><code>Fecha Now: Thu Aug 22 12:05:31 CEST 2019</code><br>
+<br><code>Segundos desde inicio: 129317</code><br>
+<br><code>Esperamos: 44 - Total(60)</code><br>
+
 
 
 
