@@ -366,7 +366,7 @@ while [ $ESTADO = 1 ]; do
     # Ventilador RPI => ON
     setValorPin $FAN_RPI $ON "1"
     # Ventilador BOX => OFF
-    setValorPin $FAN_RPI $OFF
+    setValorPin $FAN_BOX $OFF
 
     FAN_RPI_TIMES=$(($FAN_RPI_TIMES + 1))
     FAN_RPI_LAST_TEMP=$TEMPERATURA
