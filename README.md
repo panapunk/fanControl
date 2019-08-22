@@ -35,7 +35,7 @@ En primer lugar se definen las funciones necesarias para preparar los pines GPIO
 
 Después definimos los GPIO que usaremos para cada ventilador:
 
--- GPIO de salida
+-- GPIO de salida<br>
 FAN_RPI=18<br>
 FAN_RPI_NOMBRE="Ventilador RPI"<br>
 FAN_RPI_TIMES=0<br>
