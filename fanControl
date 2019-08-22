@@ -19,6 +19,7 @@
 ### END INIT INFO
 
 NOMBRE_DEMONIO="fanControl"
+MY_HOME="/root"
 
 # Dependiendo de los parámetros que se le pasen al programa se usa una opción u otra
 case "$1" in
@@ -26,7 +27,7 @@ case "$1" in
     echo "Arrancando $NOMBRE_DEMONIO"
     # Aquí hay que poner el programa que quieras arrancar automáticamente
     # Lo hacemos abriendo screen
-    screen -d -m -S $NOMBRE_DEMONIO /bin/bash /home/osmc/.$NOMBRE_DEMONIO/$NOMBRE_DEMONIO.sh
+    screen -d -m -S $NOMBRE_DEMONIO /bin/bash $MY_HOME/.$NOMBRE_DEMONIO/$NOMBRE_DEMONIO.sh $MY_HOME
     ;;
   stop)
     echo "Deteniendo $NOMBRE_DEMONIO \n"
@@ -40,7 +41,7 @@ case "$1" in
     fi
 
     # Paramos los ventiladores que puedan estar encendidos
-    /bin/bash /home/osmc/.$NOMBRE_DEMONIO/$NOMBRE_DEMONIO.sh 0
+    /bin/bash $MY_HOME/.$NOMBRE_DEMONIO/$NOMBRE_DEMONIO.sh $MY_HOME  0
     ;;
   *)
     echo "Modo de uso: /etc/init.d/$NOMBRE_DEMONIO {start|stop}"

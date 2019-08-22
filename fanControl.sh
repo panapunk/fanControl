@@ -6,98 +6,22 @@
         ###       @panapunk        ###
         ##############################
 
+# /**
+# * INICIO - Cabecera de variables
+# */
 # Nombre aplicación
 APP_NAME="fanControl"
+
 # Obtenemos la ruta del programa
 MY_HOME="/home/osmc"
-# printf "Mi home es: $MY_HOME \n"
+if [ $1 ]; then
+  MY_HOME=$1
+fi
 
 ## rutas para la app
 RUTA_CONFIG="$MY_HOME/.$APP_NAME"
 
-## Functiones archivos
-RESULT=0
-# Create dir
-setDir() {
-  RESULT="No se ha recibido la variable ruta - setDir() \n"
-  if [ $1 ]; then
-    # fichero existe y es un directorio
-    if [ ! -d $1 ]; then
-      printf "setDir parámetro: $1 \n"
-      printf "Creamos la ruta: $1 \n"
-      mkdir $1
-      # sleep 1
-    fi
-    if [ -d $1 ]; then
-      RESULT=$1
-    fi
-  fi
-}
-# create file
-setFile() {
-  RESULT="No se ha recibido la variable ruta - setFile() \n"
-  if [ $1 ]; then
-    RESULT="No se ha recibido la variable valor - setFile() para dar valor a $1 \n"
-    if [ $2 ]; then
-      printf "setFile parámetro: $RUTA_CONFIG/$1 \n"
-      printf "Creamos el archivo: $RUTA_CONFIG/$1 con valor $2 \n"
-      echo $2 > $RUTA_CONFIG/$1
-    fi
-  fi
-}
-# Get valor file
-getValorFile() {
-  RESULT="No se ha recibido la variable nombre Archivo - getValorFile() \n"
-  if [ $1 ]; then
-    RESULT="No existe el fichero $1 - getValorFile() \n"
-    if [ -f $RUTA_CONFIG/$1 ]; then
-      RESULT=$(cat $RUTA_CONFIG/$1)
-    else
-      if [ $2 ]; then
-        setFile $1 $2
-      else
-        setFile $1 1
-      fi
-    fi
-  fi
-}
-
-# /**
-# * Cabecera de variables
-# */
-setDir $RUTA_CONFIG
-
-## Archivos de configuración
-VALOR=1
-getConfigValor() {
-  RESULT="No se ha recibido la variable archivo - getConfigValor() \n"
-  if [ $1 ]; then
-    if [ $2 ]; then
-      getValorFile $1 $2
-    else
-      getValorFile $1
-    fi
-    VALOR=$RESULT
-  fi
-}
-getConfigValor ESTADO 1
-printf "el ESTADO es: $VALOR \n"
-getConfigValor MODO 1
-printf "el MODO es: $VALOR \n"
-getConfigValor LOG
-printf "el LOG es: $VALOR \n"
-getConfigValor PAUSE 10
-printf "el PAUSE es: $VALOR \n"
-TEMPERATURA_MIN=60
-getConfigValor "TEMPERATURA_MIN" $TEMPERATURA_MIN
-printf "el TEMPERATURA_MIN es: $VALOR \n"
-TEMPERATURA_MAX=70
-getConfigValor "TEMPERATURA_MAX" $TEMPERATURA_MAX
-printf "el TEMPERATURA_MAX es: $VALOR \n"
-
-# setFile PAUSE 300
-# exit 0
-
+## Archivo de LOG
 ARCHIVO_LOG="$MY_HOME/LOG"
 
 # RUTA base acceso a GPIO
@@ -129,6 +53,7 @@ PWM_MIN=0
 # /**
 # * FIN - Cabecera de variables
 # */
+
 
 # /**
 # * Cabecera de Funciones
@@ -205,7 +130,6 @@ getPinStatus() {
     if [ -e $BASE_GPIO_PATH/gpio$1 ]; then
       DIRECTION_GPIO=$(cat $BASE_GPIO_PATH/gpio$1/direction)
       VALUE_GPIO=$(cat $BASE_GPIO_PATH/gpio$1/value)
-      # ESTADO_GPIO=$VALUE_GPIO
     fi
   else
     setErrorNumberPin 'getPinStatus()'
@@ -217,8 +141,8 @@ setValorPin() {
   if [ $1 ]; then
     getPinStatus $1
     if [ $DIRECTION_GPIO = $GPIO_SALIDA ]; then
-      getConfigValor MODO
-      if [ ! $VALUE_GPIO -eq $2 ] && [ $VALOR -eq 1 ]; then
+      MODO=$(cat $RUTA_CONFIG/.MODO)
+      if [ ! $VALUE_GPIO -eq $2 ] && [ $MODO -eq 1 ]; then
           echo $2 > $BASE_GPIO_PATH/gpio$1/value
       fi
     else
@@ -279,7 +203,7 @@ shutdown() {
 }
 
 ## Apagamos si recibimos la orden
-if [ $1 -eq 0 ]; then
+if [ $2 ] && [ $2 -eq 0 ]; then
   RESTO=2
   while [ $RESTO -gt 0 ]; do
     clear
@@ -312,8 +236,7 @@ inicializarApp() {
   setValorPin $FAN_RPI $ON "1"
   setValorPin $FAN_BOX $ON "1"
   #Pause
-  getConfigValor PAUSE
-  PAUSE=3
+  PAUSE=$(cat $RUTA_CONFIG/.PAUSE_SORT)
   while [ $PAUSE -gt 1 ]; do
     clear
     printf "Inicializamos el programa \n"
@@ -338,8 +261,7 @@ inicializarApp
 
 # LOOP
 FAN_ACTIVO=''
-getConfigValor ESTADO
-ESTADO=$VALOR
+ESTADO=$(cat $RUTA_CONFIG/.ESTADO)
 while [ $ESTADO = 1 ]; do
 
   # clear
@@ -374,7 +296,8 @@ while [ $ESTADO = 1 ]; do
 
     # Comandos a ejecutar
     FAN_ACTIVO=$FAN_RPI_NOMBRE
-    setFile PAUSE 300
+    # setFile PAUSE 300
+    PAUSE=$(cat $RUTA_CONFIG/.PAUSE_LONG)
     
   # Maximum fan RPM
   elif [ $TEMPERATURA -ge $TEMPERATURA_MAX ]; then
@@ -395,7 +318,7 @@ while [ $ESTADO = 1 ]; do
 
     # Comandos a ejecutar
     FAN_ACTIVO="$FAN_RPI_NOMBRE - $FAN_BOX_NOMBRE"
-    setFile PAUSE 120
+    PAUSE=$(cat $RUTA_CONFIG/.PAUSE)
 
   # Switch off the fan
   else
@@ -411,7 +334,7 @@ while [ $ESTADO = 1 ]; do
 
     # Comandos a ejecutar
     FAN_ACTIVO="NINGUNO"
-    setFile PAUSE 60
+    PAUSE=$(cat $RUTA_CONFIG/.PAUSE)
 
   fi
   
@@ -419,9 +342,8 @@ while [ $ESTADO = 1 ]; do
   # printf "$FAN_ACTIVO activado. \n" >> $ARCHIVO_LOG
 
   #Pause 60 seconds
-  getConfigValor PAUSE
-  TOTAL=$VALOR
-  while [ $VALOR -gt 0 ]; do
+  TOTAL=$PAUSE
+  while [ $PAUSE -gt 0 ] && [ $ESTADO = 1 ]; do
 
     TEMPERATURA_OBTENIDA=$(cat /sys/class/thermal/thermal_zone0/temp)
     TEMPERATURA=$(($TEMPERATURA_OBTENIDA/1000))
@@ -439,13 +361,13 @@ while [ $ESTADO = 1 ]; do
     #Segundos transcurridos
     printf "Fecha Now: $FECHA \n"
     printf "Segundos desde inicio: $CONTADOR_SEC \n"
-    printf "Esperamos: $VALOR - Total($TOTAL) \n"
-    VALOR=$(($VALOR - 1))
+    printf "Esperamos: $PAUSE - Total($TOTAL) \n"
+    PAUSE=$(($PAUSE - 1))
     sleep 1
+    ESTADO=$(cat $RUTA_CONFIG/.ESTADO)
 
   done
 
-  getConfigValor ESTADO
-  ESTADO=$VALOR
+  ESTADO=$(cat $RUTA_CONFIG/.ESTADO)
 done
 shutdown
