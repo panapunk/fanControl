@@ -16,4 +16,8 @@ El segundo ventilador llamado FAN_BOX, de dimensiones 40mm x 10mm, se ha instala
 
 SOFTWARE
 
-Debido a los problemas encontrados para instalar y habilitar las librerías GPIO de python3, se ha desarrollado el script par Bin/Bash de linux
+Debido a los problemas encontrados para instalar y habilitar las librerías GPIO de python3, se ha desarrollado el script par Bin/Bash de linux.
+
+<code>
+  install
+</code>
