@@ -10,6 +10,12 @@
 # Nombre aplicación
 APP_NAME="fanControl"
 
+### eleminar archivo de servicio demonio
+if [ $1 ] && [ $1 = "remove_daemon"]; then
+    sudo update-rc.d -f $APP_NAME remove
+    exit 0
+fi
+
 # Obtenemos la ruta del programa
 if [ $1 ] && [ -d $1 ]; then
     MY_HOME=$1
@@ -89,5 +95,8 @@ fi
 chmod +x -R $RUTA_CONFIG
 sleep $SLEEP_DEFAULT
 
-cd ..
-sudo rm -fr $APP_NAME
+# Si se ha solicitado la limpieaza de los archivos de git
+if [ $1 ]; then
+    cd ..
+    sudo rm -fr $APP_NAME
+fi
