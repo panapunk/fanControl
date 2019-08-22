@@ -141,7 +141,7 @@ setValorPin() {
   if [ $1 ]; then
     getPinStatus $1
     if [ $DIRECTION_GPIO = $GPIO_SALIDA ]; then
-      MODO=$(cat $RUTA_CONFIG/.MODO)
+      MODO=$(cat $RUTA_CONFIG/MODO)
       if [ ! $VALUE_GPIO -eq $2 ] && [ $MODO -eq 1 ]; then
           echo $2 > $BASE_GPIO_PATH/gpio$1/value
       fi
@@ -236,7 +236,7 @@ inicializarApp() {
   setValorPin $FAN_RPI $ON "1"
   setValorPin $FAN_BOX $ON "1"
   #Pause
-  PAUSE=$(cat $RUTA_CONFIG/.PAUSE_SORT)
+  PAUSE=$(cat $RUTA_CONFIG/PAUSE_SORT)
   while [ $PAUSE -gt 1 ]; do
     clear
     printf "Inicializamos el programa \n"
@@ -261,17 +261,15 @@ inicializarApp
 
 # LOOP
 FAN_ACTIVO=''
-ESTADO=$(cat $RUTA_CONFIG/.ESTADO)
+ESTADO=$(cat $RUTA_CONFIG/ESTADO)
 while [ $ESTADO = 1 ]; do
 
   # clear
   CONTADOR=$(($CONTADOR+1))
   TEMPERATURA_OBTENIDA=$(cat /sys/class/thermal/thermal_zone0/temp)
   TEMPERATURA=$(($TEMPERATURA_OBTENIDA/1000))
-  getConfigValor TEMPERATURA_MIN
-  TEMPERATURA_MIN=$VALOR
-  getConfigValor TEMPERATURA_MAX
-  TEMPERATURA_MAX=$VALOR
+  TEMPERATURA_MIN=$(cat $RUTA_CONFIG/TEMPERATURA_MIN)
+  TEMPERATURA_MAX=$(cat $RUTA_CONFIG/TEMPERATURA_MAX)
 
   FECHA=`date`
   MES=`date | awk '{print $2}'`
@@ -297,7 +295,7 @@ while [ $ESTADO = 1 ]; do
     # Comandos a ejecutar
     FAN_ACTIVO=$FAN_RPI_NOMBRE
     # setFile PAUSE 300
-    PAUSE=$(cat $RUTA_CONFIG/.PAUSE_LONG)
+    PAUSE=$(cat $RUTA_CONFIG/PAUSE_LONG)
     
   # Maximum fan RPM
   elif [ $TEMPERATURA -ge $TEMPERATURA_MAX ]; then
@@ -318,7 +316,7 @@ while [ $ESTADO = 1 ]; do
 
     # Comandos a ejecutar
     FAN_ACTIVO="$FAN_RPI_NOMBRE - $FAN_BOX_NOMBRE"
-    PAUSE=$(cat $RUTA_CONFIG/.PAUSE)
+    PAUSE=$(cat $RUTA_CONFIG/PAUSE)
 
   # Switch off the fan
   else
@@ -334,7 +332,7 @@ while [ $ESTADO = 1 ]; do
 
     # Comandos a ejecutar
     FAN_ACTIVO="NINGUNO"
-    PAUSE=$(cat $RUTA_CONFIG/.PAUSE)
+    PAUSE=$(cat $RUTA_CONFIG/PAUSE)
 
   fi
   
@@ -364,10 +362,10 @@ while [ $ESTADO = 1 ]; do
     printf "Esperamos: $PAUSE - Total($TOTAL) \n"
     PAUSE=$(($PAUSE - 1))
     sleep 1
-    ESTADO=$(cat $RUTA_CONFIG/.ESTADO)
+    ESTADO=$(cat $RUTA_CONFIG/ESTADO)
 
   done
 
-  ESTADO=$(cat $RUTA_CONFIG/.ESTADO)
+  ESTADO=$(cat $RUTA_CONFIG/ESTADO)
 done
 shutdown
