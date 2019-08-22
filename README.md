@@ -36,18 +36,18 @@ En primer lugar se definen las funciones necesarias para preparar los pines GPIO
 Después definimos los GPIO que usaremos para cada ventilador:
 
 -- GPIO de salida
-FAN_RPI=18
-FAN_RPI_NOMBRE="Ventilador RPI"
-FAN_RPI_TIMES=0
-FAN_RPI_LAST_TEMP=0
-FAN_RPI_LAST_DATE=0
-FAN_BOX=13
-FAN_BOX_NOMBRE="Ventilador BOX"
-FAN_BOX_TIMES=0
-FAN_BOX_LAST_TEMP=0
-FAN_BOX_LAST_DATE=0
-GPIO de entrada
-TEST_GPIO=17
+FAN_RPI=18<br>
+FAN_RPI_NOMBRE="Ventilador RPI"<br>
+FAN_RPI_TIMES=0<br>
+FAN_RPI_LAST_TEMP=0<br>
+FAN_RPI_LAST_DATE=0<br>
+FAN_BOX=13<br>
+FAN_BOX_NOMBRE="Ventilador BOX"<br>
+FAN_BOX_TIMES=0<br>
+FAN_BOX_LAST_TEMP=0<br>
+FAN_BOX_LAST_DATE=0<br>
+GPIO de entrada<br>
+TEST_GPIO=17<br>
 
 Se utilizarán los pines 18 para el ventilador de refrigeración de la Raspberry pi y el 13 para el ventilador de extracción de aire caliente de la caja.
 
