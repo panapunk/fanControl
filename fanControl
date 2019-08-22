@@ -1,0 +1,50 @@
+#! /bin/sh
+# /etc/init.d/fanControl
+
+        ##############################
+        ### Control de temperatura ###
+        ### mediante ventiladores  ###
+        ###        DEMONIO         ###
+        ###       @panapunk        ###
+        ##############################
+
+### BEGIN INIT INFO
+# Provides:          fanControl
+# Required-Start:    $all
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Script de ejemplo de arranque automático
+# Description:       Script para iniciar y parar el programa de control de temperatura
+### END INIT INFO
+
+NOMBRE_DEMONIO="fanControl"
+
+# Dependiendo de los parámetros que se le pasen al programa se usa una opción u otra
+case "$1" in
+  start)
+    echo "Arrancando $NOMBRE_DEMONIO"
+    # Aquí hay que poner el programa que quieras arrancar automáticamente
+    # Lo hacemos abriendo screen
+    screen -d -m -S $NOMBRE_DEMONIO /bin/bash /home/osmc/.$NOMBRE_DEMONIO/$NOMBRE_DEMONIO.sh
+    ;;
+  stop)
+    echo "Deteniendo $NOMBRE_DEMONIO \n"
+
+    # obtenemos el PID del screen creado y lo paramos
+    SCREEN_2=$(screen -ls | head -2 | awk '{print $1}' | tail -1 | cut -d'.' -f2)
+    if [ $SCREEN_2 = "$NOMBRE_DEMONIO" ]; then
+      SCREEN_1=$(screen -ls | head -2 | awk '{print $1}' | tail -1 | cut -d'.' -f1)
+      echo "Deteniendo PID: $SCREEN_1 \n"
+      kill $SCREEN_1
+    fi
+
+    # Paramos los ventiladores que puedan estar encendidos
+    /bin/bash /home/osmc/.$NOMBRE_DEMONIO/$NOMBRE_DEMONIO.sh 0
+    ;;
+  *)
+    echo "Modo de uso: /etc/init.d/$NOMBRE_DEMONIO {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0
