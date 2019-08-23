@@ -24,8 +24,8 @@ RUTA_CONFIG="$MY_HOME/.$APP_NAME"
 ## Archivo de LOG
 FECHA=`date`
 ARCHIVO_LOG="$RUTA_CONFIG/LOG"
-setInLog() {
-  if [ $1 ] && [ $1 != "" ]; then
+logSave() {
+  if [ $1 ]; then
     echo $1 >> $ARCHIVO_LOG
   fi
 }
@@ -205,7 +205,8 @@ shutdown() {
 
   ESTADO=0
 
-  setInLog "<<<<<<<<<<<<<<<<<<< Finalizamos script $FECHA >>>>>>>>>>>>>>>>>> \n"
+  TO_SAVE="<<<<<<<<<<<<<<<<<<< Finalizamos script $FECHA >>>>>>>>>>>>>>>>>> \n"
+  logSave $TO_SAVE
   # echo "" > $ARCHIVO_LOG
   exit 0
 }
@@ -230,7 +231,8 @@ TOTAL=0
 
 inicializarApp() {
 
-  setInLog "<<<<<<<<<<<<<<<<<<< Iniciamos script $FECHA >>>>>>>>>>>>>>>>>> \n"
+  TO_SAVE="<<<<<<<<<<<<<<<<<<< Iniciamos script $FECHA >>>>>>>>>>>>>>>>>> \n"
+  logSave $TO_SAVE
 
   # Se preparan TODOS los pines para usar
   exportPin $FAN_RPI
@@ -302,10 +304,11 @@ while [ $ESTADO = 1 ]; do
     FAN_RPI_TIMES=$(($FAN_RPI_TIMES + 1))
     FAN_RPI_LAST_TEMP=$TEMPERATURA
     FAN_RPI_LAST_DATE=$FECHA
-    setInLog "Fan RPI: $FAN_RPI_LAST_DATE \n"
-    setInLog "Times: $FAN_RPI_TIMES - Total: $CONTADOR \n"
-    setInLog "Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
-    setInLog " --------------------------------------------------- \n"
+    TO_SAVE="Fan RPI: $FAN_RPI_LAST_DATE \n"
+    TO_SAVE="$TO_SAVE Times: $FAN_RPI_TIMES - Total: $CONTADOR \n"
+    TO_SAVE"$TO_SAVE Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
+    TO_SAVE"$TO_SAVE  --------------------------------------------------- \n"
+    logSave $TO_SAVE
 
     # Comandos a ejecutar
     FAN_ACTIVO=$FAN_RPI_NOMBRE
@@ -324,19 +327,20 @@ while [ $ESTADO = 1 ]; do
     FAN_RPI_TIMES=$(($FAN_RPI_TIMES + 1))
     FAN_RPI_LAST_TEMP=$TEMPERATURA
     FAN_RPI_LAST_DATE=$FECHA
-    setInLog "Fan RPI: $FAN_RPI_LAST_DATE \n"
-    setInLog "Times: $FAN_RPI_TIMES - Total: $CONTADOR \n"
-    setInLog "Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
-    setInLog " --------------------------------------------------- \n"
+    TO_SAVE="Fan RPI: $FAN_RPI_LAST_DATE \n"
+    TO_SAVE="$TO_SAVE Times: $FAN_RPI_TIMES - Total: $CONTADOR \n"
+    TO_SAVE="$TO_SAVE Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
+    TO_SAVE="$TO_SAVE  --------------------------------------------------- \n"
     # Ventilador BOX => ON
     setValorPin $FAN_BOX $ON "1"
     FAN_BOX_TIMES=$(($FAN_BOX_TIMES + 1))
     FAN_BOX_LAST_TEMP=$TEMPERATURA
     FAN_BOX_LAST_DATE=$FECHA
-    setInLog "Fan BOX: $FAN_BOX_LAST_DATE \n"
-    setInLog "Times: $FAN_BOX_TIMES - Total: $CONTADOR \n"
-    setInLog "Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
-    setInLog " --------------------------------------------------- \n"
+    TO_SAVE="$TO_SAVE Fan BOX: $FAN_BOX_LAST_DATE \n"
+    TO_SAVE="$TO_SAVE Times: $FAN_BOX_TIMES - Total: $CONTADOR \n"
+    TO_SAVE="$TO_SAVE Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
+    TO_SAVE="$TO_SAVE  --------------------------------------------------- \n"
+    logSave $TO_SAVE
 
     # Comandos a ejecutar
     FAN_ACTIVO="$FAN_RPI_NOMBRE - $FAN_BOX_NOMBRE"
