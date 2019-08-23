@@ -26,10 +26,10 @@ FECHA=`date`
 ARCHIVO_LOG="$RUTA_CONFIG/LOG"
 TO_SAVE=""
 logSave() {
-  if [ "$TO_SAVE" != "" ]; then
-    printf $TO_SAVE >> $ARCHIVO_LOG
-    chmod +x $ARCHIVO_LOG
-  fi
+  # if [ $TO_SAVE != "" ]; then
+  #   printf "$TO_SAVE \n" >> $ARCHIVO_LOG
+  # fi
+  chmod +x $ARCHIVO_LOG
 }
 
 # RUTA base acceso a GPIO
@@ -207,8 +207,9 @@ shutdown() {
 
   ESTADO=0
 
-  TO_SAVE="<<<<<<<<<<<<<<<<<<< Finalizamos script $FECHA >>>>>>>>>>>>>>>>>> \n"
-  logSave $TO_SAVE
+  TO_SAVE="*************** Finalizamos script $FECHA ************** \n"
+  # logSave $TO_SAVE
+  printf "$TO_SAVE \n" >> $ARCHIVO_LOG
   # echo "" > $ARCHIVO_LOG
   exit 0
 }
@@ -233,8 +234,9 @@ TOTAL=0
 
 inicializarApp() {
 
-  TO_SAVE="<<<<<<<<<<<<<<<<<<< Iniciamos script $FECHA >>>>>>>>>>>>>>>>>> \n"
-  logSave $TO_SAVE
+  TO_SAVE="*************** Iniciamos script $FECHA *****************"
+  # logSave $TO_SAVE
+  printf "$TO_SAVE \n" >> $ARCHIVO_LOG
 
   # Se preparan TODOS los pines para usar
   exportPin $FAN_RPI
@@ -310,7 +312,8 @@ while [ $ESTADO = 1 ]; do
     TO_SAVE="$TO_SAVE Times: $FAN_RPI_TIMES - Total: $CONTADOR \n"
     TO_SAVE"$TO_SAVE Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
     TO_SAVE"$TO_SAVE  --------------------------------------------------- \n"
-    logSave $TO_SAVE
+    # logSave $TO_SAVE
+    printf "$TO_SAVE \n" >> $ARCHIVO_LOG
 
     # Comandos a ejecutar
     FAN_ACTIVO=$FAN_RPI_NOMBRE
@@ -342,7 +345,8 @@ while [ $ESTADO = 1 ]; do
     TO_SAVE="$TO_SAVE Times: $FAN_BOX_TIMES - Total: $CONTADOR \n"
     TO_SAVE="$TO_SAVE Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
     TO_SAVE="$TO_SAVE  --------------------------------------------------- \n"
-    logSave $TO_SAVE
+    # logSave $TO_SAVE
+    printf "$TO_SAVE \n" >> $ARCHIVO_LOG
 
     # Comandos a ejecutar
     FAN_ACTIVO="$FAN_RPI_NOMBRE - $FAN_BOX_NOMBRE"
