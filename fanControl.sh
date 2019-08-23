@@ -310,8 +310,8 @@ while [ $ESTADO = 1 ]; do
     FAN_RPI_LAST_DATE=$FECHA
     TO_SAVE="Fan RPI: $FAN_RPI_LAST_DATE \n"
     TO_SAVE="$TO_SAVE Times: $FAN_RPI_TIMES - Total: $CONTADOR \n"
-    TO_SAVE"$TO_SAVE Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
-    TO_SAVE"$TO_SAVE  --------------------------------------------------- \n"
+    TO_SAVE="$TO_SAVE Temperatura: $TEMPERATURA ºC ($TEMPERATURA_OBTENIDA) \n"
+    TO_SAVE="$TO_SAVE  --------------------------------------------------- \n"
     # logSave $TO_SAVE
     printf "$TO_SAVE \n" >> $ARCHIVO_LOG
 
