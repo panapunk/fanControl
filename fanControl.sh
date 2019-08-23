@@ -28,6 +28,7 @@ TO_SAVE=""
 logSave() {
   if [ $TO_SAVE != "" ]; then
     printf $TO_SAVE >> $ARCHIVO_LOG
+    chmod +x $ARCHIVO_LOG
   fi
 }
 
