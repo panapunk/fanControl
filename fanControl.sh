@@ -24,9 +24,10 @@ RUTA_CONFIG="$MY_HOME/.$APP_NAME"
 ## Archivo de LOG
 FECHA=`date`
 ARCHIVO_LOG="$RUTA_CONFIG/LOG"
+TO_SAVE=""
 logSave() {
-  if [ $1 ]; then
-    echo $1 >> $ARCHIVO_LOG
+  if [ $TO_SAVE != "" ]; then
+    printf $TO_SAVE >> $ARCHIVO_LOG
   fi
 }
 

@@ -31,6 +31,9 @@ RUTA_CONFIG="$MY_HOME/.$APP_NAME"
 SLEEP_DEFAULT=2
 
 # creamos la carpeta para los archivos necesarios
+if [ -d $RUTA_CONFIG ]; then
+    rm -fr $RUTA_CONFIG
+fi
 if [ ! -d $RUTA_CONFIG ]; then
     printf "Creamos la ruta para los archivos del programa: $RUTA_CONFIG \n"
     mkdir $RUTA_CONFIG
